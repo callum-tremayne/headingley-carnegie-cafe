@@ -1,0 +1,125 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Headingley Campus - Carnegie Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Inter:wght@400;700;900&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sheetrock@1.2.0/dist/sheetrock.min.js"></script>
+<script src="https://unpkg.com/handlebars@4.5.0/dist/handlebars.min.js"></script>
+<div class="top-container">
+  <div class="back-container">
+    <a href="campusm://pocketguide?pg_code=428889" class="back"
+      ><svg
+        width="40px"
+        height="40px"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="#e9502c"
+        stroke="#fffff"
+      >
+        <polyline points="244 400 100 256 244 112" id="polyline"></polyline>
+        <line x1="120" y1="256" x2="412" y2="256" id="line"></line>
+      </svg>
+      <p>Back</p>
+    </a>
+  </div>
+  <div class="header-image">
+    <img
+      src="https://portal.ombiel.co.uk/assets/LeedsBeckettUniversity/LeedsBeckett/FoodMenu/2023-24/lbuappArtboard-1-copy-2.png"
+      alt="Carnegie Cafe"
+    />
+  </div>
+</div>
+<div class="main-title">
+  <div class="title">Breakfast Menu</div>
+</div>
+<section class="menu-category">
+  <button class="collapsible">
+    <span class="menu-category-title">Sandwiches</span
+    ><span class="arrow">▼</span>
+  </button>
+  <div class="content">
+    <p class="menu-description">
+      <em>Soft, toasted potato bread roll filled with:</em>
+    </p>
+    <div id="breakfastSandwiches">
+      <script
+        id="breakfastSandwiches-template"
+        type="text/x-handlebars-template"
+      >
+        <div class="menu-item">
+          <h4>{{cells.BreakfastSandwiches}}</h4>
+          <p><strong>{{cells.BreakfastSandwichesPrice}}</strong></p>
+        </div>
+      </script>
+    </div>
+  </div>
+</section>
+<section class="menu-category">
+  <button class="collapsible">
+    <span class="menu-category-title">Morning Deal</span
+    ><span class="arrow">▼</span>
+  </button>
+  <div class="content">
+    <div class="menu-item">
+      <h4>Any Regular Hot Drink + Any Pastry</h4>
+      <p><strong>£3.50</strong></p>
+    </div>
+  </div>
+</section>
+<footer class="bottom-container">
+  <a href="https://www.leedsbeckett.ac.uk/beckettfood/rewards/" target="_blank"
+    ><img
+      src="https://portal.ombiel.co.uk/assets/LeedsBeckettUniversity/LeedsBeckett/FoodMenu/2024-25/UpayaPP-10.png"
+      alt="Rewards" /></a
+  ><span class="tnc">
+    Food Allergies & Intolerances -<br />
+    Before you order your food and drinks please ask a member of staff if you
+    would like to know about our ingredients.
+  </span>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var collapsibles = document.getElementsByClassName("collapsible");
+    Array.from(collapsibles).forEach(function (collapsible) {
+      collapsible.addEventListener("click", function () {
+        // Close all other accordions
+        Array.from(collapsibles).forEach(function (other) {
+          if (other !== collapsible) {
+            other.classList.remove("active");
+            other.nextElementSibling.style.maxHeight = null;
+          }
+        });
+
+        // Toggle the clicked accordion
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    });
+  });
+</script>
+<script>
+  // Define spreadsheet URL.
+  var carnegieCafe =
+    "https://docs.google.com/spreadsheets/d/1TkWMu07wdjNvzfwwqlF4_fehEElZt-3Nc2xgU-vIGHE/edit?gid=1104241546#gid=1104241546";
+
+  var BreakfastSandwiches = Handlebars.compile(
+    $("#breakfastSandwiches-template").html()
+  );
+
+  $("#breakfastSandwiches").sheetrock({
+    url: carnegieCafe,
+    query: "select A, B where A is not null",
+    rowTemplate: BreakfastSandwiches,
+  });
+</script>
