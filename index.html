@@ -62,6 +62,24 @@
 </section>
 <section class="menu-category">
   <button class="collapsible">
+    <span class="menu-category-title">Salads</span><span class="arrow">▼</span>
+  </button>
+  <div class="content">
+    <p class="menu-description">
+      <em>Prepared daily with a fresh range of flavours.</em>
+    </p>
+    <div id="saladBoxes">
+      <script id="saladBoxes-template" type="text/x-handlebars-template">
+        <div class="menu-item">
+          <h4>{{cells.SaladBoxes}}</h4>
+          <p><strong>{{cells.SaladBoxesPrice}}</strong></p>
+        </div>
+      </script>
+    </div>
+  </div>
+</section>
+<section class="menu-category">
+  <button class="collapsible">
     <span class="menu-category-title">Morning Deal</span
     ><span class="arrow">▼</span>
   </button>
@@ -121,5 +139,13 @@
     url: carnegieCafe,
     query: "select A, B where A is not null",
     rowTemplate: BreakfastSandwiches,
+  });
+
+  var SaladBoxes = Handlebars.compile($("#saladBoxes-template").html());
+
+  $("#saladBoxes").sheetrock({
+    url: carnegieCafe,
+    query: "select C, D where C is not null",
+    rowTemplate: SaladBoxes,
   });
 </script>
